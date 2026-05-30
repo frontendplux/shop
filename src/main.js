@@ -1,63 +1,65 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
-import 'bootstrap/dist/css/bootstrap.min.css' 
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import ScrollReveal from 'scrollreveal'
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+import './style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import ScrollReveal from 'scrollreveal';
+import { login } from './pages/auth/login';
+const app = document.getElementById('app');
 
-<div class="ticks"></div>
+ export const CompanyInfo={
+      name:"Shoplenca"
+}
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+const router = (path) => {
+    const currentPath = window.location.pathname;
+    if (path !== currentPath) {
+        history.pushState({}, '', path + window.location.search);
+    }
+    loadPage(path);
+};
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+async function loadPage(path) {
+    switch (path) {
+        case '/':
+            app.innerHTML = login();
+            break;
 
-setupCounter(document.querySelector('#counter'))
+        // === authentication
+        case '/login':
+            app.innerHTML = login();
+            break;
+
+        case '/contact':
+            app.innerHTML = `
+                <h1>Contact Page</h1>
+            `;
+            break;
+
+        default:
+            app.innerHTML = `
+                <h1>404 - Page Not Found</h1>
+            `;
+    }
+
+    ScrollReveal().reveal('h1', {
+        distance: '10px',
+        duration: 1000
+    });
+}
+
+window.addEventListener('load', () => {
+    loadPage(window.location.pathname);
+});
+
+window.addEventListener('popstate', () => {
+    loadPage(window.location.pathname);
+});
+
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-link]');
+    if (!link) return;
+    e.preventDefault();
+    router(link.getAttribute('href'));
+});
+
+export { router };
