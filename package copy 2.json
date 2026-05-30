@@ -5,13 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node rename-build.js",
+    "build": "vite build && cp .htaccess dist/.htaccess",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "fs-extra": "^11.3.5",
     "vite": "^8.0.12",
-    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-sitemap": "^0.8.2"
   },

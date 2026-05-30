@@ -1,13 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>shoplenca</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head> 
+  <?php include 'conn.php'; ?>
+  <meta charset="UTF-8" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+  <title><%= title %></title> 
+  <meta name="description" content="<%= description %>" /> 
+  <meta name="keywords" content="Air9ja, software development, web design, Nigeria tech" /> 
+  <meta name="author" content="Air9ja" /> <!-- Open Graph --> 
+  <meta property="og:title" content="Air9ja" /> 
+  <meta property="og:description" content="Modern software development company" /> 
+  <meta property="og:image" content="/cover.jpg" /> 
+  <meta property="og:type" content="website" /> <!-- Twitter --> 
+  <meta name="twitter:card" content="summary_large_image" /> 
+  <script type="application/ld+json"> 
+    { 
+      "@context": "https://schema.org", 
+      "@type": "Organization", 
+      "name": "shoplenca", 
+      "url": "https://shopy.42web.io", 
+      "logo": "https://shopy.42web.io/logo.png"
+     } 
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>
