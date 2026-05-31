@@ -4,6 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ScrollReveal from 'scrollreveal';
 import { login } from './pages/auth/login';
+import { signup } from './pages/auth/signup';
+import { enterPassword } from './pages/auth/login2';
+import { forgotPassword } from './pages/auth/fp';
+import { enterPin } from './pages/auth/pin';
 const app = document.getElementById('app');
 
  export const CompanyInfo={
@@ -29,10 +33,22 @@ async function loadPage(path) {
             app.innerHTML = login();
             break;
 
-        case '/contact':
-            app.innerHTML = `
-                <h1>Contact Page</h1>
-            `;
+        case '/login2':
+            app.innerHTML=enterPassword()
+            break;
+
+      
+        case '/forget-password':
+            app.innerHTML=forgotPassword()
+            break;
+          
+        case '/pin':
+            app.innerHTML=enterPin()
+            break; 
+
+
+        case '/signup':
+            app.innerHTML =signup();
             break;
 
         default:

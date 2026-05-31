@@ -4,7 +4,7 @@ export function login(){
     return/*html*/`
     <div class="container">
     <div class="row justify-content-center align-items-center vh-100">
-        <div class="col-12 col-md-6 col-lg-4 text-center">
+        <div class="col-12 col-md-6 col-lg-5 text-center">
             
             <!-- Logo Section -->
             <div class="mb-4">
@@ -15,7 +15,7 @@ export function login(){
             <div class="card border-0 shadow-sm p-4">
                 <div class="card-body text-start">
                     <h5 class="card-title fw-bold mb-1">Welcome to ${CompanyInfo.name}</h5>
-                    <p class="card-text text-muted small mb-4">Type your e-mail or phone number to log in or create a Jumia account.</p>
+                    <p class="card-text text-muted small mb-4">Type your e-mail or phone number to log in or create a ${CompanyInfo.name} account.</p>
 
                     <form>
                         <!-- Input Field -->
