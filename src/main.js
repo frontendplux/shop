@@ -9,6 +9,7 @@ import { enterPassword, enterPasswordFunction } from './pages/auth/enter-passwor
 // import { forgotPassword } from './pages/auth/fp';
 // import { enterPin } from './pages/auth/pin';
 import { homePage, homePageFunction } from './home';
+import { customerDashboardLayout } from './pages/member';
 const app = document.getElementById('app');
 
 export const CompanyInfo = {
@@ -69,6 +70,10 @@ const router = (path) => {
         case '/create-password':
             app.innerHTML =signup();
             signupFunction();
+            break;
+          
+        case '/dashboard':
+            app.innerHTML = customerDashboardLayout();
             break;
 
         default:
