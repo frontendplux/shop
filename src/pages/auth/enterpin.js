@@ -1,4 +1,3 @@
-import { CompanyInfo } from "../../main";
 export function enterPin(){
     return /*html*/`
     <div class="container">

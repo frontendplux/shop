@@ -1,5 +1,3 @@
-import { CompanyInfo } from "../../main";
-
 export function forgotPassword(){
     return /*html*/`
     <div class="container">

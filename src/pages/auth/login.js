@@ -1,10 +1,9 @@
-import { CompanyInfo } from "../../main";
-
+import { CompanyInfo } from "../../main"
 export function login(){
     return/*html*/`
     <div class="container">
     <div class="row justify-content-center align-items-center vh-100">
-        <div class="col-12 col-md-6 col-lg-5 text-center">
+        <div class="col-12 col-md-6 col-lg-6 text-center">
             
             <!-- Logo Section -->
             <div class="mb-4">
@@ -15,17 +14,17 @@ export function login(){
             <div class="card border-0 shadow-sm p-4">
                 <div class="card-body text-start">
                     <h5 class="card-title fw-bold mb-1">Welcome to ${CompanyInfo.name}</h5>
-                    <p class="card-text text-muted small mb-4">Type your e-mail or phone number to log in or create a ${CompanyInfo.name} account.</p>
+                    <p class="card-text text-muted small mb-4">Type your e-mail to log in or create a ${CompanyInfo.name} account.</p>
 
-                    <form>
+                    <form id="loginForm">
                         <!-- Input Field -->
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control border-secondary-subtle" id="floatingInput" placeholder="name@example.com" required>
-                            <label for="floatingInput" class="text-muted">Email or Phone Number</label>
+                            <label for="floatingInput" class="text-muted">Email Address</label>
                         </div>
 
                         <!-- Continue Button (Jumia Orange via Bootstrap Warning) -->
-                        <button type="submit" class="btn btn-warning w-full py-3 w-100 fw-bold text-white shadow-sm" style="background-color: #f68b1e; border: none;">
+                        <button id="continueBtn" type="submit" class="btn btn-warning w-full py-3 w-100 fw-bold text-white shadow-sm" style="background-color: #f68b1e; border: none;">
                             CONTINUE
                         </button>
                     </form>
@@ -37,9 +36,9 @@ export function login(){
                         <hr class="flex-grow-1">
                     </div>
 
-                    <!-- Facebook Button -->
-                    <button class="btn btn-primary w-100 py-2 fw-bold mb-4 d-flex align-items-center justify-content-center">
-                        <span class="me-2">f</span> Log in with Facebook
+                    <!-- Google Button -->
+                    <button id="googleLoginBtn" class="btn btn-danger w-100 py-3 fw-bold mb-4 d-flex align-items-center justify-content-center">
+                        <span class="me-2 bi bi-google"></span> Log in with google
                     </button>
 
                     <!-- Policy Text -->
@@ -59,4 +58,68 @@ export function login(){
         </div>
     </div>
 </div>`
+}
+
+export function loginFunction() {
+
+    const form = document.getElementById('loginForm');
+    if (!form) return;
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('floatingInput');
+        const continueBtn = document.getElementById('continueBtn');
+
+        const referral = new URLSearchParams(
+            window.location.search
+        ).get('ref') ?? null;
+
+        continueBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm"></span>
+            Loading...
+        `;
+        continueBtn.disabled = true;
+
+        try {
+
+            const response = await fetch(CompanyInfo.server, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'auth',
+                    type: 'login',
+                    email: email.value,
+                    referral: referral
+                })
+            }).then(res => res.text());
+
+
+            console.log(response);
+            const res =JSON.parse(response);
+
+            if (!res.success) {
+                alert(res.message || 'Login failed');
+                return;
+            }
+
+            const userEmail = res.data.email;
+            const redirect = res.data.redirect;
+
+            window.location.href =
+                `${redirect}?u=${encodeURIComponent(userEmail)}`;
+
+        } catch (error) {
+
+            console.error(error);
+            alert('Something went wrong. Please try again.');
+
+        } finally {
+
+            continueBtn.innerHTML = "CONTINUE";
+            continueBtn.disabled = false;
+        }
+    };
 }

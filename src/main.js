@@ -3,16 +3,32 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ScrollReveal from 'scrollreveal';
-import { login } from './pages/auth/login';
-import { signup } from './pages/auth/signup';
-import { enterPassword } from './pages/auth/login2';
-import { forgotPassword } from './pages/auth/fp';
-import { enterPin } from './pages/auth/pin';
+import { login, loginFunction } from './pages/auth/login';
+import { signup, signupFunction } from './pages/auth/signup';
+import { enterPassword, enterPasswordFunction } from './pages/auth/enter-password';
+// import { forgotPassword } from './pages/auth/fp';
+// import { enterPin } from './pages/auth/pin';
+import { homePage, homePageFunction } from './home';
 const app = document.getElementById('app');
 
- export const CompanyInfo={
-      name:"Shoplenca"
-}
+export const CompanyInfo = {
+    name: "Shoplenca",
+    server: [
+        'localhost',
+        '127.0.0.1',
+        '172.20.10.10'
+    ].includes(window.location.hostname)
+        ? 'http://localhost:3000/index.php'
+        : '/api/index.php'
+};
+
+export const userData = {
+    isLogin: false,
+    user_id: localStorage.getItem('user_id') ?? 0,
+    unique_id: sessionStorage.getItem('unique_id') ?? 0,
+    cart_count: 0,
+    data: []
+};
 
 const router = (path) => {
     const currentPath = window.location.pathname;
@@ -22,21 +38,24 @@ const router = (path) => {
     loadPage(path);
 };
 
-async function loadPage(path) {
+
+ function loadPage(path) {
     switch (path) {
         case '/':
-            app.innerHTML = login();
+            app.innerHTML = homePage();
+            homePageFunction();
             break;
-
+       
         // === authentication
         case '/login':
             app.innerHTML = login();
+            loginFunction();
             break;
 
-        case '/login2':
+        case '/enter-password':
             app.innerHTML=enterPassword()
+            enterPasswordFunction()
             break;
-
       
         case '/forget-password':
             app.innerHTML=forgotPassword()
@@ -47,8 +66,9 @@ async function loadPage(path) {
             break; 
 
 
-        case '/signup':
+        case '/create-password':
             app.innerHTML =signup();
+            signupFunction();
             break;
 
         default:
