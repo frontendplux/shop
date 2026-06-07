@@ -10,6 +10,8 @@ import { enterPassword, enterPasswordFunction } from './pages/auth/enter-passwor
 // import { enterPin } from './pages/auth/pin';
 import { homePage, homePageFunction } from './home';
 import { customerDashboardLayout } from './pages/member';
+import { vendorDashboardLayout } from './pages/vendor';
+import { adminDashboardLayout } from './pages/admin';
 const app = document.getElementById('app');
 
 export const CompanyInfo = {
@@ -74,6 +76,14 @@ const router = (path) => {
           
         case '/dashboard':
             app.innerHTML = customerDashboardLayout();
+            break;
+
+        case '/vendor':
+            app.innerHTML=vendorDashboardLayout()
+            break;
+
+        case '/admin':
+            app.innerHTML=adminDashboardLayout()
             break;
 
         default:
